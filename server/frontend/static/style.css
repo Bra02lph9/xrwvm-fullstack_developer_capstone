@@ -1,81 +1,114 @@
-img{
-  width: 60%;
+/* Images */
+img {
+  width: 40%;
+  max-width: 60%;
+  height: auto;
   align-self: center;
 }
 
-.card{
+/* Card styling */
+.card {
   border: rgb(103, 102, 105) 3px solid;
   display: flex;  
   flex-direction: column;
-  margin-left:5%;
-  margin-right:5%;
-  margin-top: 1%;
-  margin-bottom: 1%;
+  margin: 1% 5%;
 }
 
-.row{
+.card .card-body {
+  padding: 15px;
+}
+
+/* Row container for multiple cards */
+.row {
   display: flex;  
   flex: 1;
   flex-direction: row;
   margin: auto;
   margin-top: 1%;
   justify-content: center;
-  padding:20px;
+  padding: 20px;
 }
 
-.container{
+/* Responsive: stack cards vertically on small screens */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  .card {
+    width: 80% !important;
+    margin: 10px auto;
+  }
+}
+
+/* Container for centering content */
+.container {
   justify-content: center;
 }
-.details{
+
+/* Details text styling */
+.details {
   font-size: 20px;
   color: rgb(97, 64, 128);
-  padding:20px;
+  padding: 20px;
 }
 
-.title{
+/* Card title */
+.title {
   font-size: 20px;
   background-color: rgb(97, 64, 128);
   color: white;
   text-align: center;
-  margin:20px;
-  padding:5px;
+  margin: 20px;
+  padding: 5px;
 }
 
-.homepage_links{
-  color:  rgb(97, 64, 128);
+/* Homepage links styling */
+.homepage_links {
+  color: rgb(97, 64, 128);
   padding: 25%;
   font-size: larger;
-  }
+}
 
-.loginlink{
+/* Login link styling */
+.loginlink {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
 }
 
-.banner{
+/* Banner / About header */
+.banner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex:1
+  flex: 1;
+  padding: 20px;
+  text-align: center;
 }
 
+.banner h1 {
+  font-size: 2em;
+  text-align: center;
+}
+
+/* Form panel styling */
 .form_panel {
-  padding:2%;
+  padding: 2%;
   display: flex;
   flex-direction: column;
   border-radius: 50px;
-  text-align:center;
+  text-align: center;
   box-shadow: 2px 2px 2px 3px #999;
   margin: auto;
   min-width: 350px;
   width: 80%;
-  margin-top:3%;
+  margin-top: 3%;
   background-color: black;
 }
 
-.navitems{
+/* Navbar items */
+.navitems {
   display: flex;
   flex-direction: row;
   padding: 20px;
@@ -84,43 +117,47 @@ img{
   justify-self: center;
 }
 
-.nav_item{
-  margin-left:15px;
+.nav_item {
+  margin-left: 15px;
   font-size: 20px;
   color: black;
   align-self: center;
 }
 
-.username{
+/* Username display */
+.username {
   font: 30px sans-serif;
-  color:black;
-  justify-content: 'flex-end';
-  align-self:flex-end;
+  color: black;
+  justify-content: flex-end;
+  align-self: flex-end;
   vertical-align: middle;
 }
 
+/* Input panel */
 .input_panel {
   display: flex;
   flex-direction: row;
   padding: 20px;
   flex: 1;
-  justify-content:flex-end;
+  justify-content: flex-end;
   align-items: flex-end;
   vertical-align: middle;
 }
 
-.small_header{
+/* Small headers */
+.small_header {
   font: 30px sans-serif;
-  color:black;
+  color: black;
   margin: .5cm;
 }
 
+/* Image icon */
 .img_icon {
   align-self: center;
-    width:40px;
-    background-color:#0C9;
-    color:#FFF;
-    border-radius:50px;
-    text-align:center;
-    box-shadow: 2px 2px 3px #999;  
+  width: 40px;
+  background-color: #0C9;
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;  
 }
