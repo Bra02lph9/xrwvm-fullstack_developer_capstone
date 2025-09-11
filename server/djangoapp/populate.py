@@ -1,6 +1,7 @@
 # populate.py
 from .models import CarMake, CarModel
 
+
 def initiate():
     # ----------------------
     # Car Make Data

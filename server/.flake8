@@ -1,0 +1,6 @@
+[flake8]
+# Ignore virtual environments, cache, migrations, and node_modules
+exclude = djangoenv,__pycache__,migrations,node_modules
+# Allow slightly longer lines
+max-line-length = 120
+# Only check Python files in your project folders

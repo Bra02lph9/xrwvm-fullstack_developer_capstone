@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import CarMake, CarModel
 from .populate import initiate  # uncomment if you have an initiate() function
 
+from .restapis import get_request, analyze_review_sentiments, post_review
+
 # Logging
 import logging
 import json
@@ -97,19 +99,74 @@ def get_cars(request):
     return JsonResponse({"CarModels": cars})
 
 
-
 # -----------------------------
 # Placeholder views for future features
 # -----------------------------
 
 # def get_dealerships(request):
-#     pass
+# Update the `get_dealerships` render list of dealerships all by default, particular state if state is passed
+def get_dealerships(request, state="All"):
+    if state == "All":
+        endpoint = "/fetchDealers/"
+    else:
+        endpoint = f"/fetchDealers/{state}"
+
+    response = get_request(endpoint)
+
+    # Ensure dealers_list is always an array
+    if response and isinstance(response, dict):
+        dealers_list = response.get("dealers") or []
+    else:
+        dealers_list = []
+
+    return JsonResponse({"status": 200, "dealers": dealers_list})
 
 # def get_dealer_reviews(request, dealer_id):
-#     pass
+
+
+def get_dealer_reviews(request, dealer_id):
+    # if dealer id has been provided
+    if (dealer_id):
+        endpoint = "/fetchReviews/dealer/" + str(dealer_id)
+        reviews = get_request(endpoint)
+        for review_detail in reviews:
+            response = analyze_review_sentiments(review_detail['review'])
+            print(response)
+            review_detail['sentiment'] = response['sentiment']
+        return JsonResponse({"status": 200, "reviews": reviews})
+    else:
+        return JsonResponse({"status": 400, "message": "Bad Request"})
 
 # def get_dealer_details(request, dealer_id):
-#     pass
+
+
+def get_dealer_details(request, dealer_id):
+    if dealer_id:
+        endpoint = "/fetchDealer/" + str(dealer_id)
+        dealership = get_request(endpoint)
+
+        # Always wrap in list
+        dealer_list = dealership if isinstance(dealership, list) else [dealership]
+
+        return JsonResponse({"status": 200, "dealer": dealer_list})
+    return JsonResponse({"status": 400, "message": "Bad Request"})
 
 # def add_review(request):
-#     pass
+
+
+@csrf_exempt
+def add_review(request):
+    if request.method != "POST":
+        return JsonResponse({"status": 400, "message": "POST required"})
+
+    try:
+        data = json.loads(request.body)
+    except Exception as e:
+        return JsonResponse({"status": 400, "message": f"Invalid JSON: {e}"})
+
+    response = post_review(data)
+
+    if response and response.get("status") == 200:
+        return JsonResponse({"status": 200})
+    else:
+        return JsonResponse({"status": 500, "message": response.get("message", "Error posting review")})

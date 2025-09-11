@@ -33,6 +33,11 @@ urlpatterns = [
     # React login page (served from frontend build/index.html)
     path('login/', TemplateView.as_view(template_name="index.html")),
 
-    # react registration page 
+    # React dealers page
+    path('dealers/', TemplateView.as_view(template_name="index.html")),
+    path('dealer/<int:dealer_id>', TemplateView.as_view(template_name="index.html")),
+    path('postreview/<int:dealer_id>', TemplateView.as_view(template_name="index.html")),
+
+    # react registration page
     path('register/', TemplateView.as_view(template_name="index.html")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

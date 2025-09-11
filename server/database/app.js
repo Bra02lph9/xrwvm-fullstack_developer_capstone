@@ -6,12 +6,14 @@ const app = express();
 const port = 3030;
 
 app.use(cors());
-app.use(require('body-parser').urlencoded({ extended: false }));
+app.use(express.json());
 
 const reviews_data = JSON.parse(fs.readFileSync("./data/reviews.json", 'utf8'));
 const dealerships_data = JSON.parse(fs.readFileSync("./data/dealerships.json", 'utf8'));
 
-mongoose.connect("mongodb://mongo_db:27017/", { 'dbName': 'dealershipsDB' });
+mongoose.connect("mongodb://localhost:27017/", { dbName: 'finalproject' })
+  .then(() => console.log("✅ Connected to local MongoDB 'finalproject'"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 const Reviews = require('./review');
 const Dealerships = require('./dealership');
@@ -93,9 +95,9 @@ app.get('/fetchDealer/:id', async (req, res) => {
 });
 
 // Insert review
-app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
+app.post('/insert_review', async (req, res) => {
   try {
-    const data = JSON.parse(req.body);
+    const data = req.body; // already parsed
     const documents = await Reviews.find().sort({ id: -1 });
     const new_id = documents.length > 0 ? documents[0]['id'] + 1 : 1;
 
@@ -118,6 +120,7 @@ app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
     res.status(500).json({ status: 500, error: 'Error inserting review' });
   }
 });
+
 
 // Catch-all 404 for unknown routes
 app.use((req, res) => {
